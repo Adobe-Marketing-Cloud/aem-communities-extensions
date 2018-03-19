@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/apps/custom-blog"/>
+    <filter root="/etc/designs/social/console/jcr:content/basepage/content/responsivegrid/journal"/>
+    <filter root="/apps/communities-journal-extension/install" mode = "replace"/>
+</workspaceFilter>
