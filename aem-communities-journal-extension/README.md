@@ -20,4 +20,4 @@ Installing the sample
 
 IMPORTANT NOTE
 ==============
-* For AEM version >=6.4, design path has changed.
+* For AEM version greater than or equal to 6.4, design path has changed. Please, use branch 6.3 for AEM versions smaller than or equal to 6.3.
