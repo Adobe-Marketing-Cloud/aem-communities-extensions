@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <!-- ====================================================================== -->
+    <!-- P R O J E C T  D E S C R I P T I O N                                   -->
+    <!-- ====================================================================== -->
+    <groupId>com.adobe.aem.communities.extensions</groupId>
+    <artifactId>aem-communities-watchwords-extension-content</artifactId>
+    <version>2.0.0-SNAPSHOT</version>
+    <name>AEM Communities Watchwords Extension - Package</name>
+    <packaging>content-package</packaging>
+
+    <properties>
+        <install.target.sample>/apps/communities-watchwords-extension/install</install.target.sample>
+    </properties>
+
+    <!-- ====================================================================== -->
+    <!-- B U I L D   D E F I N I T I O N                                        -->
+    <!-- ====================================================================== -->
+    <build>
+        <resources>
+            <!-- ========================================================== -->
+            <!-- JCR CONTENT -->
+            <!-- ========================================================== -->
+            <resource>
+                <directory>${basedir}/jcr_root/</directory>
+                <excludes>
+                    <exclude>**/.vlt</exclude>
+                    <exclude>**/.vltignore</exclude>
+                    <exclude>**/.p4ignore</exclude>
+                    <exclude>**/.DS_Store</exclude>
+                    <exclude>**/*.mine</exclude>
+                    <exclude>**/*.theirs</exclude>
+                    <exclude>**/*.base</exclude>
+                </excludes>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>com.day.jcr.vault</groupId>
+                <artifactId>content-package-maven-plugin</artifactId>
+                <version>0.0.24</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <group>com/adobe/aem/communities/extensions</group>
+                    <requiresRoot>true</requiresRoot>
+                    <properties>
+                        <acHandling>overwrite</acHandling>
+                        <!-- we don't want the build-user -->
+                        <createdBy>Adobe</createdBy>
+                    </properties>
+                    <prefix>/</prefix>
+                    <filterSource>${basedir}/META-INF/vault/filter.xml</filterSource>
+
+                    <!-- maven archiver configuration -->
+                    <archive>
+                        <manifestEntries>
+                            <BuildVersion>${project.version}.${BUILD_NUMBER}</BuildVersion>
+                        </manifestEntries>
+                    </archive>
+
+                    <!-- embedded dependencies in the content package -->
+                    <embeddeds>
+                        <embedded>
+                            <groupId>com.adobe.aem.communities.extensions</groupId>
+                            <artifactId>aem-communities-watchwords-extension</artifactId>
+                            <target>${install.target.sample}</target>
+                        </embedded>
+                    </embeddeds>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.adobe.aem.communities.extensions</groupId>
+            <artifactId>aem-communities-watchwords-extension</artifactId>
+            <version>2.0.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+</project>
+
