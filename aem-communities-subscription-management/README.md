@@ -28,5 +28,10 @@ Using the servlet
     curl command example : curl -u {username}:{password} '{publish instance}/services/communities/user/subscriptions'
 						   --data 'operation=removeUserSubscriptions&subscriptiontype=subscription&subscribedId={subscribeId1}&subscribedId={subscribeId2}&..[optional]&userId={userId}'
 
+Example : curl -u admin:admin 'http://myserver:4503/services/communities/user/subscriptions'
+             --data 'operation=removeUserSubscriptions&subscriptiontype=notification&userId=a@b.com&subscribedId=content/sites/mysite/en/groups/mygroup'
+
+Note : Please note how leading slash "/" has been removed from subscribedId. It starts from content instead of /content.
+
 
 

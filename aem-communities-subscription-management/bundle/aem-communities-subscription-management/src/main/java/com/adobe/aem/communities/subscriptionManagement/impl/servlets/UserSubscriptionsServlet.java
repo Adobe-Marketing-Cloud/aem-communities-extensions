@@ -177,7 +177,7 @@ public class UserSubscriptionsServlet extends SlingAllMethodsServlet {
                     Vertex subscribedNode = null;
                     for(String subscribedId : subscribedIds) {
                         //Initialize and subscribed resource vertex & fetch all incoming relationships on this resource
-                        subscribedNode = graph.getVertex(subscribedId);
+                        subscribedNode = graph.getVertex("/" + subscribedId);
                         if (subscribedNode != null) {
                             Iterable<Relationship> relationships = subscribedNode.getRelationships(Direction.INCOMING, (String) null, type);
                             for (Relationship relationship : relationships) {

@@ -5,13 +5,14 @@
     <!-- P R O J E C T  D E S C R I P T I O N                                   -->
     <!-- ====================================================================== -->
     <groupId>com.adobe.aem.communities.extensions</groupId>
-    <artifactId>aem-communities-extensions-content</artifactId>
+    <artifactId>aem-communities-idea-extension-content</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <name>AEM Communities Extensions - Package</name>
+
+    <name>AEM Communities Idea Extension - Package</name>
     <packaging>content-package</packaging>
 
     <properties>
-        <install.target.sample>/apps/aem-communities-extension/installs</install.target.sample>
+        <install.target.acme>/apps/communities-idea-extension/install</install.target.acme>
     </properties>
 
     <!-- ====================================================================== -->
@@ -40,7 +41,7 @@
             <plugin>
                 <groupId>com.day.jcr.vault</groupId>
                 <artifactId>content-package-maven-plugin</artifactId>
-                <version>0.5.14</version>
+                <version>0.0.24</version>
                 <extensions>true</extensions>
                 <configuration>
                     <group>com/adobe/aem/communities/extensions</group>
@@ -59,35 +60,13 @@
                             <BuildVersion>${project.version}.${BUILD_NUMBER}</BuildVersion>
                         </manifestEntries>
                     </archive>
-                    <subPackages>
-                        <subPackage>
-                            <groupId>com.adobe.aem.communities.extensions</groupId>
-                            <artifactId>aem-communities-idea-extension-content</artifactId>
-                            <filter>true</filter>
-                        </subPackage>
-                        <subPackage>
-                            <groupId>com.adobe.aem.communities.extensions</groupId>
-                            <artifactId>aem-communities-journal-extension-content</artifactId>
-                            <filter>true</filter>
-                        </subPackage>
-                        <subPackage>
-                            <groupId>com.adobe.aem.communities.extensions</groupId>
-                            <artifactId>aem-communities-subscription-management-content</artifactId>
-                            <filter>true</filter>
-                        </subPackage>
-                        <subPackage>
-                            <groupId>com.adobe.aem.communities.extensions</groupId>
-                            <artifactId>aem-communities-watchwords-extension-content</artifactId>
-                            <filter>true</filter>
-                        </subPackage>
-                    </subPackages>
 
                     <!-- embedded dependencies in the content package -->
                     <embeddeds>
                         <embedded>
                             <groupId>com.adobe.aem.communities.extensions</groupId>
-                            <artifactId>aem-communities-extensions</artifactId>
-                            <target>${install.target.sample}</target>
+                            <artifactId>aem-communities-idea-extension</artifactId>
+                            <target>${install.target.acme}</target>
                         </embedded>
                     </embeddeds>
                 </configuration>
@@ -98,27 +77,9 @@
     <dependencies>
         <dependency>
             <groupId>com.adobe.aem.communities.extensions</groupId>
-            <artifactId>aem-communities-idea-extension-content</artifactId>
+            <artifactId>aem-communities-idea-extension</artifactId>
             <version>1.0.0-SNAPSHOT</version>
-            <type>zip</type>
-        </dependency>
-        <dependency>
-            <groupId>com.adobe.aem.communities.extensions</groupId>
-            <artifactId>aem-communities-journal-extension-content</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-            <type>zip</type>
-        </dependency>
-        <dependency>
-            <groupId>com.adobe.aem.communities.extensions</groupId>
-            <artifactId>aem-communities-subscription-management-content</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-            <type>zip</type>
-        </dependency>
-        <dependency>
-            <groupId>com.adobe.aem.communities.extensions</groupId>
-            <artifactId>aem-communities-watchwords-extension-content</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-            <type>zip</type>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
