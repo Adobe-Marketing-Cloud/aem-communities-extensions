@@ -3,6 +3,8 @@ package com.adobe.aem.communities.subscriptionManagement.impl.servlets;
 import com.adobe.cq.social.graph.SocialGraph;
 import com.adobe.cq.social.graph.Vertex;
 
+import com.adobe.cq.social.subscriptions.api.Subscription;
+import com.adobe.cq.social.subscriptions.api.SubscriptionManager;
 import com.adobe.granite.socialgraph.Direction;
 import com.adobe.granite.socialgraph.Relationship;
 
@@ -14,6 +16,7 @@ import com.google.gson.JsonPrimitive;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
+import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 
 import org.apache.jackrabbit.api.JackrabbitSession;
@@ -38,6 +41,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 @Component(label = "User Subscriptions Servlet", immediate = true, enabled = true,
         description = "This servlet provides facility to fetch subcriptions and unsubscribe multiple subscriptions" +
@@ -66,6 +70,9 @@ public class UserSubscriptionsServlet extends SlingAllMethodsServlet {
     private static final String GET_SUBSCRIPTIONS = "getUserSubscriptions";
     private static final String REMOVE_SUBSCRIPTIONS = "removeUserSubscriptions";
 
+    @Reference
+    private SubscriptionManager subscriptionManager;
+
     @Override
     protected void doPost(final SlingHttpServletRequest request, final SlingHttpServletResponse response) {
         String operation = request.getParameter(OPERATION);
@@ -91,9 +98,10 @@ public class UserSubscriptionsServlet extends SlingAllMethodsServlet {
      *                 --data 'operation=getUserSubscriptions&subscriptiontype=subscription[optional]&userId={userId}'
      */
     private void getUserSubscriptions(final SlingHttpServletRequest request, final SlingHttpServletResponse response) {
+        String ownerId = null;
         try {
             ResourceResolver resourceResolver = request.getResourceResolver();
-
+            List<Subscription> subscriptionList = subscriptionManager.getSubscriptions(resourceResolver, "rahubhar@adobe.com", Direction.BOTH);
             if (isUserAuthorized(request)) {
                 String substype = request.getParameter(SUBSCRIPTION_TYPE);
                 if (substype != null) {
@@ -116,7 +124,7 @@ public class UserSubscriptionsServlet extends SlingAllMethodsServlet {
                             resource = relationships.next();
                             ValueMap map = resource.adaptTo(ValueMap.class);
                             if (map != null) {
-                                String ownerId = map.get(EDGE_START).toString();
+                                ownerId = map.get(EDGE_START).toString();
                                 String type = map.get(TYPE).toString();
                                 //Add to result if the
                                 if(ownerId.equals(getUserId(request)) && type.equals(substype)) {
@@ -129,7 +137,11 @@ public class UserSubscriptionsServlet extends SlingAllMethodsServlet {
 
                     //Serialize each subscription object to json and add to response
                     JsonArray subscriptionsArray = new JsonArray();
-                    for(CustomSubscription user_subscription : subscriptions) {
+                    /*for(CustomSubscription user_subscription : subscriptions) {
+                        String subscriptionJson = new Gson().toJson(user_subscription);
+                        subscriptionsArray.add(new JsonPrimitive(subscriptionJson));
+                    }*/
+                    for(Subscription user_subscription : subscriptionList) {
                         String subscriptionJson = new Gson().toJson(user_subscription);
                         subscriptionsArray.add(new JsonPrimitive(subscriptionJson));
                     }
