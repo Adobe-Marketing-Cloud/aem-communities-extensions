@@ -17,6 +17,7 @@
         <module>aem-communities-journal-extension</module>
         <module>aem-communities-subscription-management</module>
         <module>aem-communities-watchwords-extension</module>
+        <module>com.adobe.social.sample.moderation.filter</module>
         <module>content</module>
     </modules>
 </project>
